@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Shopping Cart</h1>
+        <p class="lead">Review your order</p>
+    </div>
+</div>
+
+{% if items %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Cart Items ({{ order.get_cart_items }})</h5>
+                {% for item in items %}
+                <div class="row mb-3 border-bottom pb-3 align-items-center">
+                    <div class="col-md-2">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded" style="height: 80px; object-fit: cover;">
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="mb-1">{{ item.product.name }}</h6>
+                        <p class="text-muted mb-0">${{ item.product.price }} each</p>
+                        <small class="text-success">In stock ✓</small>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-outline-danger">-</a>
+                            <span class="mx-3 fw-bold">{{ item.quantity }}</span>
+                            <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-sm btn-outline-success">+</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <strong>${{ item.get_total }}</strong>
+                        <br>
+                        <small class="text-muted">${{ item.product.price }} × {{ item.quantity }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card sticky-top" style="top: 20px;">
+            <div class="card-body">
+                <h5 class="card-title">Order Summary</h5>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Items ({{ order.get_cart_items }}):</span>
+                    <span>${{ order.get_cart_total }}</span>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Delivery Fee:</span>
+                    <span>$2.99</span>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Tax (10%):</span>
+                    <span>${{ order.get_cart_total|floatformat:2 }}</span>
+                </div>
+                
+                <hr>
+                
+                <div class="d-flex justify-content-between mb-3">
+                    <strong>Total:</strong>
+                    <strong>${{ order.get_cart_total|add:2.99|add:order.get_cart_total|floatformat:2 }}</strong>
+                </div>
+                
+                <div class="alert alert-info">
+                    <small>
+                        <i class="fas fa-truck"></i> Free delivery on orders over $25
+                    </small>
+                </div>
+
+                <!-- Checkout Button -->
+                <a href="{% url 'checkout' %}" class="btn btn-success w-100 py-3 fw-bold">
+                    <i class="fas fa-lock me-2"></i>Secure Checkout
+                </a>
+                
+                <!-- Continue Shopping Button -->
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100 mt-2">
+                    <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                </a>
+                
+                <!-- Quick Actions -->
+                <div class="mt-3 text-center">
+                    <small>
+                        <a href="#" class="text-decoration-none text-muted me-3">
+                            <i class="fas fa-heart me-1"></i>Save for later
+                        </a>
+                        <a href="#" class="text-decoration-none text-muted">
+                            <i class="fas fa-trash me-1"></i>Clear cart
+                        </a>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recommended Items Section -->
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h4>You might also like</h4>
+        <div class="row">
+            {% for product in products|slice:":3" %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 120px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{ product.name }}</h6>
+                        <p class="card-text"><strong>${{ product.price }}</strong></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-sm btn-outline-success w-100">
+                            Add to Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <div class="alert alert-info py-5">
+            <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+            <h4>Your cart is empty</h4>
+            <p class="text-muted">Looks like you haven't added any tasty items yet!</p>
+            <a href="{% url 'home' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-utensils me-2"></i>Browse Menu
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Add Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .sticky-top {
+        position: sticky;
+        z-index: 100;
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .alert-info {
+        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+        border: none;
+    }
+</style>
+{% endblock %}

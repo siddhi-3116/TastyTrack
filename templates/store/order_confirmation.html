@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="card">
+            <div class="card-body">
+                <h1>🎉 Order Confirmed!</h1>
+                <p class="lead">Thank you for your order!</p>
+                
+                <div class="alert alert-success">
+                    <h4>Order #{{ order.id }}</h4>
+                    <p>Total: <strong>${{ order.get_cart_total }}</strong></p>
+                    <p>Estimated delivery time: 30-45 minutes</p>
+                </div>
+                
+                <h5>Delivery Address:</h5>
+                <p>
+                    {{ shipping_address.address }}<br>
+                    {{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.zipcode }}
+                </p>
+                
+                <div class="mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-success">Continue Shopping</a>
+                    <a href="{% url 'order_history' %}" class="btn btn-outline-secondary">View Order History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

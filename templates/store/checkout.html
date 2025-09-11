@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Checkout</h1>
+        <p class="lead">Complete your order</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Delivery Information</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_address" class="form-label">Delivery Address</label>
+                        {{ form.address }}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_city" class="form-label">City</label>
+                            {{ form.city }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="id_state" class="form-label">State</label>
+                            {{ form.state }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="id_zipcode" class="form-label">ZIP Code</label>
+                            {{ form.zipcode }}
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success w-100">Place Order - ${{ order.get_cart_total }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Order Summary</h5>
+                {% for item in items %}
+                <div class="d-flex justify-content-between mb-2">
+                    <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                    <span>${{ item.get_total }}</span>
+                </div>
+                {% endfor %}
+                <hr>
+                <div class="d-flex justify-content-between mb-3">
+                    <strong>Total:</strong>
+                    <strong>${{ order.get_cart_total }}</strong>
+                </div>
+                <div class="alert alert-info">
+                    <small>Estimated delivery time: 30-45 minutes</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

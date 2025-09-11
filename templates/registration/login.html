@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Login Card -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-utensils me-2"></i>Welcome Back!
+                    </h3>
+                    <p class="mb-0 mt-2">Sign in to your TastyTrack account</p>
+                </div>
+                
+                <div class="card-body p-5">
+                    <!-- Login Form -->
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username Field -->
+                        <div class="mb-4">
+                            <label for="id_username" class="form-label fw-bold">
+                                <i class="fas fa-user me-2 text-success"></i>Username
+                            </label>
+                            <input type="text" name="username" class="form-control form-control-lg" 
+                                   id="id_username" placeholder="Enter your username" required
+                                   style="border-radius: 10px; border: 2px solid #e9ecef; transition: all 0.3s;">
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            <label for="id_password" class="form-label fw-bold">
+                                <i class="fas fa-lock me-2 text-success"></i>Password
+                            </label>
+                            <input type="password" name="password" class="form-control form-control-lg" 
+                                   id="id_password" placeholder="Enter your password" required
+                                   style="border-radius: 10px; border: 2px solid #e9ecef; transition: all 0.3s;">
+                            <div class="form-text">
+                                <a href="#" class="text-success text-decoration-none">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <!-- Remember Me Checkbox -->
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label text-muted" for="rememberMe">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold py-3" 
+                                    style="border-radius: 12px; transition: all 0.3s;">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="text-center my-4">
+                        <span class="text-muted">or continue with</span>
+                    </div>
+
+                    <!-- Social Login Buttons (Placeholder) -->
+                    <div class="row g-2 mb-4">
+                        <div class="col-6">
+                            <button class="btn btn-outline-secondary w-100" disabled>
+                                <i class="fab fa-google me-2"></i>Google
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-secondary w-100" disabled>
+                                <i class="fab fa-facebook me-2"></i>Facebook
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Register Link -->
+                    <div class="text-center">
+                        <p class="text-muted mb-2">Don't have an account?</p>
+                        <a href="{% url 'register' %}" class="btn btn-outline-success btn-lg px-4" 
+                           style="border-radius: 12px; transition: all 0.3s;">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="text-center mt-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-bolt text-success me-2"></i>
+                            <small class="text-muted">Quick Login</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-shield-alt text-success me-2"></i>
+                            <small class="text-muted">Secure</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-history text-success me-2"></i>
+                            <small class="text-muted">Order History</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    .card {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .card-header {
+        border-bottom: 3px solid rgba(255,255,255,0.2);
+    }
+    
+    .form-control {
+        padding: 15px;
+        font-size: 1.1rem;
+        background: #f8f9fa;
+    }
+    
+    .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.3rem rgba(40, 167, 69, 0.15);
+        transform: translateY(-2px);
+        background: white;
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .btn-success:hover {
+        background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    .btn-outline-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+    }
+    
+    .form-check-input:checked {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .container {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Animation for form elements */
+    .form-group {
+        animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Social buttons styling */
+    .btn-outline-secondary {
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+    
+    .btn-outline-secondary:hover:not([disabled]) {
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

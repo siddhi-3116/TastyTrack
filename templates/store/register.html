@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Registration Card -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </h3>
+                    <p class="mb-0 mt-2">Join TastyTrack today!</p>
+                </div>
+                
+                <div class="card-body p-5">
+                    <!-- Registration Form -->
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username Field -->
+                        <div class="mb-4">
+                            <label for="id_username" class="form-label fw-bold">
+                                <i class="fas fa-user me-2 text-success"></i>Username
+                            </label>
+                            <input type="text" name="username" class="form-control form-control-lg" 
+                                   id="id_username" placeholder="Choose a username" required
+                                   style="border-radius: 10px; border: 2px solid #e9ecef; transition: all 0.3s;">
+                            <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+                        </div>
+
+                        <!-- Password Fields -->
+                        <div class="mb-4">
+                            <label for="id_password1" class="form-label fw-bold">
+                                <i class="fas fa-lock me-2 text-success"></i>Password
+                            </label>
+                            <input type="password" name="password1" class="form-control form-control-lg" 
+                                   id="id_password1" placeholder="Create a password" required
+                                   style="border-radius: 10px; border: 2px solid #e9ecef; transition: all 0.3s;">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="id_password2" class="form-label fw-bold">
+                                <i class="fas fa-lock me-2 text-success"></i>Confirm Password
+                            </label>
+                            <input type="password" name="password2" class="form-control form-control-lg" 
+                                   id="id_password2" placeholder="Confirm your password" required
+                                   style="border-radius: 10px; border: 2px solid #e9ecef; transition: all 0.3s;">
+                            <div class="form-text">Enter the same password as before, for verification.</div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg fw-bold py-3" 
+                                    style="border-radius: 12px; transition: all 0.3s;">
+                                <i class="fas fa-check-circle me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="text-center my-4">
+                        <span class="text-muted">Already have an account?</span>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg px-4" 
+                           style="border-radius: 12px; transition: all 0.3s;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Features -->
+            <div class="text-center mt-4">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-truck text-success me-2"></i>
+                            <small class="text-muted">Fast Delivery</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-shield-alt text-success me-2"></i>
+                            <small class="text-muted">Secure Payment</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-headset text-success me-2"></i>
+                            <small class="text-muted">24/7 Support</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    
+    .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        transform: translateY(-2px);
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .card-header {
+        border-bottom: none;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+    }
+</style>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}
