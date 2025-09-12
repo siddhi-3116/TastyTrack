@@ -9,8 +9,9 @@ pip install -r requirements.txt
 mkdir -p static
 mkdir -p media
 
-# Apply any outstanding database migrations
+# Apply ALL database migrations (including your store app)
 python manage.py migrate
+python manage.py migrate store  # Specifically migrate your store app
 
 # Convert static asset files
 python manage.py collectstatic --no-input
