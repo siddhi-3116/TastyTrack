@@ -1,30 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 text-center">
-        <div class="card">
+<div class="row">
+    <div class="col-md-12 text-center">
+        <div class="alert alert-success py-4">
+            <i class="fas fa-check-circle fa-4x mb-3 text-success"></i>
+            <h1 class="display-4">Order Confirmed!</h1>
+            <p class="lead">Thank you for your order, {{ order.customer.username }}!</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-sm">
             <div class="card-body">
-                <h1>🎉 Order Confirmed!</h1>
-                <p class="lead">Thank you for your order!</p>
+                <h5 class="card-title">
+                    <i class="fas fa-receipt me-2"></i>Order #{{ order.id }}
+                </h5>
                 
-                <div class="alert alert-success">
-                    <h4>Order #{{ order.id }}</h4>
-                    <p>Total: <strong>${{ order.get_cart_total }}</strong></p>
-                    <p>Estimated delivery time: 30-45 minutes</p>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6>Delivery Address</h6>
+                        <p class="text-muted">
+                            {{ order.shipping_address.address }}<br>
+                            {{ order.shipping_address.city }}, {{ order.shipping_address.state }} {{ order.shipping_address.zipcode }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Order Details</h6>
+                        <p class="text-muted">
+                            Order Date: {{ order.date_ordered|date:"M d, Y H:i" }}<br>
+                            Status: <span class="badge bg-success">Confirmed</span>
+                        </p>
+                    </div>
                 </div>
+
+                <h6>Order Items</h6>
+                {% for item in order.orderitem_set.all %}
+                <div class="d-flex align-items-center mb-3 border-bottom pb-3">
+                    <!-- PRODUCT IMAGE -->
+                    <div class="me-3">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                             class="rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">{{ item.product.name }}</h6>
+                        <small class="text-muted">Qty: {{ item.quantity }} × ${{ item.product.price }}</small>
+                    </div>
+                    <div class="text-end">
+                        <strong>${{ item.get_total|floatformat:2 }}</strong>
+                    </div>
+                </div>
+                {% endfor %}
                 
-                <h5>Delivery Address:</h5>
-                <p>
-                    {{ shipping_address.address }}<br>
-                    {{ shipping_address.city }}, {{ shipping_address.state }} {{ shipping_address.zipcode }}
-                </p>
-                
-                <div class="mt-4">
-                    <a href="{% url 'home' %}" class="btn btn-success">Continue Shopping</a>
-                    <a href="{% url 'order_history' %}" class="btn btn-outline-secondary">View Order History</a>
+                <hr>
+                <div class="d-flex justify-content-between fs-5">
+                    <strong>Total:</strong>
+                    <strong class="text-success">${{ order.get_cart_total|floatformat:2 }}</strong>
                 </div>
             </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'home' %}" class="btn btn-success me-2">
+                <i class="fas fa-utensils me-2"></i>Continue Shopping
+            </a>
+            <a href="{% url 'order_history' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-history me-2"></i>View Order History
+            </a>
         </div>
     </div>
 </div>

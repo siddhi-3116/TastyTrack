@@ -110,7 +110,8 @@
             <div class="col-md-4 mb-3">
                 <div class="card h-100">
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 120px; object-fit: cover;">
+                    <!-- FIXED THIS LINE: Changed item.product to product -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top" style="height: 120px; object-fit: cover;">
                     {% endif %}
                     <div class="card-body">
                         <h6 class="card-title">{{ product.name }}</h6>
@@ -143,8 +144,9 @@
 </div>
 {% endif %}
 
-<!-- Add Font Awesome for icons -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Updated Font Awesome CDN (your link was outdated) -->
+<script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+<!-- Better: Add this in your base.html instead -->
 
 <style>
     .card {

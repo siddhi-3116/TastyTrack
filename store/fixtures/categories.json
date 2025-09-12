@@ -1,0 +1,7 @@
+[ 
+  {"model": "store.category", "pk": 1, "fields": {"name": "Pizza"}}, 
+  {"model": "store.category", "pk": 2, "fields": {"name": "Burgers"}}, 
+  {"model": "store.category", "pk": 3, "fields": {"name": "Pasta"}}, 
+  {"model": "store.category", "pk": 4, "fields": {"name": "Drinks"}}, 
+  {"model": "store.category", "pk": 5, "fields": {"name": "Desserts"}} 
+] 

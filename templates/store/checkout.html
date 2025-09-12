@@ -3,65 +3,166 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1>Checkout</h1>
-        <p class="lead">Complete your order</p>
+        <h1 class="display-5">Checkout</h1>
+        <p class="lead text-muted">Complete your order</p>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-8">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Delivery Information</h5>
+                <h5 class="card-title mb-4">
+                    <i class="fas fa-truck me-2 text-success"></i>Delivery Information
+                </h5>
                 <form method="post">
                     {% csrf_token %}
                     
                     <div class="mb-3">
-                        <label for="id_address" class="form-label">Delivery Address</label>
+                        <label for="id_address" class="form-label fw-bold">Delivery Address</label>
                         {{ form.address }}
+                        {% if form.address.errors %}
+                        <div class="text-danger small">{{ form.address.errors }}</div>
+                        {% endif %}
                     </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="id_city" class="form-label">City</label>
+                            <label for="id_city" class="form-label fw-bold">City</label>
                             {{ form.city }}
+                            {% if form.city.errors %}
+                            <div class="text-danger small">{{ form.city.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="id_state" class="form-label">State</label>
+                            <label for="id_state" class="form-label fw-bold">State</label>
                             {{ form.state }}
+                            {% if form.state.errors %}
+                            <div class="text-danger small">{{ form.state.errors }}</div>
+                            {% endif %}
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="id_zipcode" class="form-label">ZIP Code</label>
+                            <label for="id_zipcode" class="form-label fw-bold">ZIP Code</label>
                             {{ form.zipcode }}
+                            {% if form.zipcode.errors %}
+                            <div class="text-danger small">{{ form.zipcode.errors }}</div>
+                            {% endif %}
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-success w-100">Place Order - ${{ order.get_cart_total }}</button>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg py-3 fw-bold">
+                            <i class="fas fa-check-circle me-2"></i>Place Order - ${{ order.get_cart_total|floatformat:2 }}
+                        </button>
+                        <a href="{% url 'cart' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Cart
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
     
     <div class="col-md-4">
-        <div class="card">
+        <div class="card shadow-sm sticky-top" style="top: 20px;">
             <div class="card-body">
-                <h5 class="card-title">Order Summary</h5>
+                <h5 class="card-title mb-4">
+                    <i class="fas fa-receipt me-2 text-primary"></i>Order Summary
+                </h5>
+                
                 {% for item in items %}
-                <div class="d-flex justify-content-between mb-2">
-                    <span>{{ item.product.name }} (x{{ item.quantity }})</span>
-                    <span>${{ item.get_total }}</span>
+                <div class="d-flex align-items-center mb-3 border-bottom pb-3">
+                    <!-- ADDED PRODUCT IMAGE -->
+                    <div class="me-3">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                             class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">{{ item.product.name }}</h6>
+                        <small class="text-muted">Qty: {{ item.quantity }} × ${{ item.product.price }}</small>
+                    </div>
+                    <div class="text-end">
+                        <strong>${{ item.get_total|floatformat:2 }}</strong>
+                    </div>
                 </div>
                 {% endfor %}
+                
                 <hr>
-                <div class="d-flex justify-content-between mb-3">
-                    <strong>Total:</strong>
-                    <strong>${{ order.get_cart_total }}</strong>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span>${{ order.get_cart_total|floatformat:2 }}</span>
                 </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Delivery Fee:</span>
+                    <span>$2.99</span>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Tax (10%):</span>
+                    <span>${{ order.get_cart_total|multiply:0.1|floatformat:2 }}</span>
+                </div>
+                
+                <hr>
+                
+                <div class="d-flex justify-content-between mb-3 fs-5">
+                    <strong>Total:</strong>
+                    <strong class="text-success">
+                        ${{ order.get_cart_total|add:2.99|add:order.get_cart_total|multiply:0.1|floatformat:2 }}
+                    </strong>
+                </div>
+                
                 <div class="alert alert-info">
-                    <small>Estimated delivery time: 30-45 minutes</small>
+                    <small>
+                        <i class="fas fa-info-circle me-1"></i>
+                        Estimated delivery: 30-45 minutes
+                    </small>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <small>
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Please review your order before placing
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        border-radius: 12px;
+        border: none;
+    }
+    
+    .sticky-top {
+        position: sticky;
+        z-index: 100;
+    }
+    
+    .btn-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        border: none;
+        transition: all 0.3s;
+    }
+    
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    input[type="text"], input[type="email"] {
+        border-radius: 8px;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus, input[type="email"]:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+</style>
 {% endblock %}

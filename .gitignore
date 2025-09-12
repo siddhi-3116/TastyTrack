@@ -39,7 +39,7 @@ Desktop.ini
 # Database
 *.db
 *.sqlite3
-migrations/
+*/migrations/
 
 # Python
 *.pyc
