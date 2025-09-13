@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-d&b0wxw)nqc^2%q-^d#wmx4ref9mv-9$3!von1o$)ob5u%b$u#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 # Enhanced ALLOWED_HOSTS configuration
 ALLOWED_HOSTS = [
+    "tastytrack-x7jh.onrender.com",
     "localhost",
     "127.0.0.1",
-    "tastytrack-x7jh.onrender.com",
     ".onrender.com",  # Catch all Render subdomains
 ]
 
@@ -40,10 +40,15 @@ if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
 
 # CSRF protection for Render production
 CSRF_TRUSTED_ORIGINS = [
-    'https://tastytrack-x7jh.onrender.com',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
+    'https://tastytrack-x7jh.onrender.com',  # Your Render domain (with https://)
+    'http://localhost:8000',                 # Local development
+    'http://127.0.0.1:8000'                  # Local development
 ]
+
+# Add the current Render hostname to CSRF trusted origins
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 # Application definition
 INSTALLED_APPS = [
@@ -169,6 +174,11 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SAMESITE = 'Lax'
     SESSION_COOKIE_SAMESITE = 'Lax'
+else:
+    # For development, allow insecure cookies
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False
 
 # Additional CSRF settings (apply in both development and production)
 CSRF_USE_SESSIONS = False
@@ -195,6 +205,12 @@ LOGGING = {
         },
     },
 }
+
+# Superuser auto-creation (for Render deployment)
+# This will automatically create a superuser if the environment variables are set
+DJANGO_SUPERUSER_USERNAME = os.environ.get('DJANGO_SUPERUSER_USERNAME')
+DJANGO_SUPERUSER_EMAIL = os.environ.get('DJANGO_SUPERUSER_EMAIL')
+DJANGO_SUPERUSER_PASSWORD = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
 
 # Test database connection on startup
 try:
