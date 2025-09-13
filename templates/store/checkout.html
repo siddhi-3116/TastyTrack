@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}  {# CHANGED BACK to custom_filters #}
 
 {% block content %}
 <div class="row">
@@ -72,7 +73,6 @@
                 
                 {% for item in items %}
                 <div class="d-flex align-items-center mb-3 border-bottom pb-3">
-                    <!-- ADDED PRODUCT IMAGE -->
                     <div class="me-3">
                         <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
                              class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
@@ -101,6 +101,7 @@
                 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Tax (10%):</span>
+                    {# FIXED: Using multiply filter #}
                     <span>${{ order.get_cart_total|multiply:0.1|floatformat:2 }}</span>
                 </div>
                 
@@ -108,6 +109,7 @@
                 
                 <div class="d-flex justify-content-between mb-3 fs-5">
                     <strong>Total:</strong>
+                    {# FIXED: Using multiply filter #}
                     <strong class="text-success">
                         ${{ order.get_cart_total|add:2.99|add:order.get_cart_total|multiply:0.1|floatformat:2 }}
                     </strong>
